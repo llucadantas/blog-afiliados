@@ -1,0 +1,188 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CardArtigo from "../components/CardArtigo.astro";
+import LayoutArtigo from "../layouts/LayoutArtigo.astro";
+import HeroDestaque from '../components/HeroDestaque.astro';
+
+// Simulação de leitura dos Markdowns (Substitua por Astro.glob depois)
+
+const arquivosMarkdown = Object.values(import.meta.glob('./artigos/*.md', { eager: true }));
+
+const todosOsPosts = arquivosMarkdown.map((post: any) => {
+  return {
+    titulo: post.frontmatter.titulo,
+    resumo: post.frontmatter.resumo,
+    categoria: post.frontmatter.categoria,
+    data: post.frontmatter.data,
+	destaque: Boolean(post.frontmatter.destaque),
+    imagem: post.frontmatter.imagem,
+    nota: post.frontmatter.nota,
+    tipo: post.frontmatter.tipo || "Review",
+    linkReview: post.url, // O Astro extrai a URL limpa sem o ".md" automaticamente aqui
+    linkAfiliado: post.frontmatter.link_afiliado,
+  };
+});
+
+const postDestaque = todosOsPosts.find((p: any) => p.destaque === true) || todosOsPosts[0];
+const postsNormais = todosOsPosts.filter((p: any) => p.linkReview !== postDestaque.linkReview);
+---
+
+<BaseLayout titulo="Setup Ideal | Melhores Reviews">
+	<!-- HERO (POST DESTAQUE) -->
+	<HeroDestaque post={postDestaque} />
+
+	<!-- MAIN SECTION -->
+	<div
+		class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col lg:flex-row gap-10"
+	>
+		<!-- FEED COLUNA ESQUERDA -->
+		<main class="lg:w-2/3">
+			<div class="mb-8">
+				<div class="flex items-center gap-2 mb-4">
+					<i class="ph-bold ph-funnel text-slate-400 text-xl"></i>
+					<h2 class="text-lg font-display font-bold text-slate-900">
+						Explorar por Categoria
+					</h2>
+				</div>
+				<div class="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
+					<button
+						data-filter="Todos"
+						class="category-btn px-5 py-2 bg-slate-900 text-white text-sm font-semibold rounded-xl whitespace-nowrap shadow-md"
+						>Todas as Resenhas</button
+					>
+					<button
+						data-filter="Periféricos"
+						class="category-btn px-5 py-2 bg-white text-slate-600 border border-slate-200 hover:border-brand-500 hover:text-brand-600 text-sm font-semibold rounded-xl whitespace-nowrap transition-colors shadow-sm"
+						>⌨️ Periféricos</button
+					>
+					<button
+						data-filter="Áudio"
+						class="category-btn px-5 py-2 bg-white text-slate-600 border border-slate-200 hover:border-brand-500 hover:text-brand-600 text-sm font-semibold rounded-xl whitespace-nowrap transition-colors shadow-sm"
+						>🎧 Áudio e Fones</button
+					>
+					<button
+						data-filter="Cadeiras"
+						class="category-btn px-5 py-2 bg-white text-slate-600 border border-slate-200 hover:border-brand-500 hover:text-brand-600 text-sm font-semibold rounded-xl whitespace-nowrap transition-colors shadow-sm"
+						>🪑 Cadeiras Ergonômicas</button
+					>
+				</div>
+			</div>
+
+			<!-- O LOOP ACONTECE AQUI -->
+			<div class="space-y-6">
+				{postsNormais.map((post) => <CardArtigo {...post} />)}
+			</div>
+
+			<div class="mt-10 text-center">
+				<button
+					class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-slate-200 hover:border-brand-500 text-slate-700 hover:text-brand-600 font-bold rounded-2xl transition-all shadow-sm group"
+				>
+					<i
+						class="ph-bold ph-arrows-down text-lg group-hover:animate-bounce"
+					></i> Carregar mais artigos
+				</button>
+			</div>
+		</main>
+
+		<!-- SIDEBAR COLUNA DIREITA -->
+		<aside class="lg:w-1/3 space-y-8 mt-10 lg:mt-0">
+			<!-- Gatilho de Autoridade -->
+			<div
+				class="bg-brand-50 rounded-3xl p-6 border border-brand-100 relative overflow-hidden"
+			>
+				<i
+					class="ph-fill ph-seal-check absolute -right-4 -bottom-4 text-8xl text-brand-500/10"
+				></i>
+				<h3
+					class="font-display font-bold text-lg text-brand-900 mb-3 flex items-center gap-2"
+				>
+					<i class="ph-fill ph-check-circle text-brand-500 text-xl"
+					></i> Por que confiar em nós?
+				</h3>
+				<p class="text-sm text-brand-800 leading-relaxed mb-4">
+					Nós compramos com nosso próprio dinheiro a maioria dos
+					produtos que testamos. Passamos semanas analisando
+					ergonomia, durabilidade e custo-benefício real antes de
+					publicar qualquer recomendação.
+				</p>
+			</div>
+
+			<!-- Newsletter -->
+			<div
+				class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm text-center"
+			>
+				<div
+					class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4"
+				>
+					<i class="ph-fill ph-bell-ringing text-slate-600 text-2xl"
+					></i>
+				</div>
+				<h3 class="font-display font-bold text-lg text-slate-900 mb-2">
+					Alerta de Preço Baixo
+				</h3>
+				<p class="text-sm text-slate-500 mb-5">
+					Receba no seu e-mail assim que os melhores periféricos
+					entrarem em promoção.
+				</p>
+				<form class="flex flex-col gap-3">
+					<input
+						type="email"
+						placeholder="Seu melhor e-mail"
+						class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:border-brand-500 outline-none transition-all"
+					/>
+					<button
+						type="button"
+						class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold rounded-xl transition-colors"
+						>Quero receber alertas</button
+					>
+				</form>
+			</div>
+		</aside>
+	</div>
+	<script>
+    // 1. Seleciona todos os botões e todos os cards de artigos da página
+    const botoes = document.querySelectorAll('.category-btn');
+    const cards = document.querySelectorAll('article[data-category]');
+
+    botoes.forEach(botao => {
+      botao.addEventListener('click', () => {
+        // 2. Descobre qual categoria foi clicada
+        const categoriaAlvo = botao.getAttribute('data-filter');
+
+        // 3. Atualiza o estilo visual dos botões (muda quem está ativo)
+        botoes.forEach(b => {
+          b.classList.remove('bg-slate-900', 'text-white', 'shadow-md');
+          b.classList.add('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+        });
+        botao.classList.remove('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+        botao.classList.add('bg-slate-900', 'text-white', 'shadow-md');
+
+        // 4. Filtra os cards com efeito visual de transição
+        cards.forEach(card => {
+          const categoriaCard = card.getAttribute('data-category');
+
+          // Usando conversão de tipo explícita para garantir que os elementos HTML do DOM aceitem as classes
+          if (card instanceof HTMLElement) {
+            if (categoriaAlvo === 'Todos' || categoriaAlvo === categoriaCard) {
+              // Mostra o card removendo o 'hidden' e aplicando uma transição suave de opacidade
+              card.classList.remove('hidden');
+              setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'scale(1)';
+              }, 10);
+            } else {
+              // Esconde o card
+              card.style.opacity = '0';
+              card.style.transform = 'scale(0.95)';
+              // Espera o tempo da animação terminar para aplicar o hidden de fato
+              setTimeout(() => {
+                card.classList.add('hidden');
+              }, 200);
+            }
+          }
+        });
+      });
+    });
+  </script>
+</BaseLayout>
+</BaseLayout>

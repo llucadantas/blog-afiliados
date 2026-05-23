@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lexend:wght@400;600;700;800&display=swap');
+
+/* Configurações do Tailwind v4 usando CSS Puro */
+@theme {
+  /* Configurando a família de fontes */
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Lexend', sans-serif;
+
+  /* Injetando nossa paleta de cores customizada */
+  --color-brand-50: #fff1f2;
+  --color-brand-100: #ffe4e6;
+  --color-brand-200: #fecdd3;
+  --color-brand-300: #fda4af;
+  --color-brand-400: #fb7185;
+  --color-brand-500: #f43f5e; /* O Rosa/Magenta de conversão */
+  --color-brand-600: #e11d48;
+  --color-brand-700: #be123c;
+  --color-brand-800: #9f1239;
+  --color-brand-900: #881337;
+
+  --color-dark-900: #0f172a;
+  --color-dark-800: #1e293b;
+  --color-dark-700: #334155;
+}
+
+/* Customizações globais do seu Blog */
+body { 
+  background-color: #f8fafc; 
+}
+
+::-webkit-scrollbar { 
+  width: 8px; 
+}
+
+::-webkit-scrollbar-track { 
+  background: #f1f1f1; 
+}
+
+::-webkit-scrollbar-thumb { 
+  background: #f43f5e; 
+  border-radius: 4px; 
+}
+
+.no-scrollbar::-webkit-scrollbar { 
+  display: none; 
+}
+
+.no-scrollbar { 
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
+}

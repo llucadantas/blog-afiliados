@@ -1,0 +1,48 @@
+---
+const { 
+  categoria, 
+  data, 
+  titulo, 
+  resumo, 
+  imagem, 
+  nota, 
+  linkReview, 
+  linkAfiliado,
+  tipo = "Review" // Pode ser 'Review' ou 'Guia'
+} = Astro.props;
+---
+<article data-category={categoria} class="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-brand-300 transition-all duration-300 flex flex-col sm:flex-row gap-6 group">
+    <div class="sm:w-1/3 overflow-hidden rounded-2xl relative aspect-video sm:aspect-square">
+        <span class="absolute top-3 left-3 bg-white/90 backdrop-blur text-slate-900 text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded-md z-10 shadow-sm border border-slate-100">{tipo}</span>
+        <img src={imagem} alt={titulo} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+    </div>
+    
+    <div class="sm:w-2/3 flex flex-col py-1">
+        <div class="flex items-center gap-2 text-slate-500 text-xs font-medium mb-2.5">
+            <span class="text-brand-600 bg-brand-50 px-2 py-0.5 rounded-md font-bold">{categoria}</span>
+            <span>•</span>
+            <span>{data}</span>
+        </div>
+        
+        <h3 class="text-xl font-bold font-display text-slate-900 mb-2 group-hover:text-brand-600 transition-colors leading-snug">
+            <a href={linkReview} class="after:absolute after:inset-0">{titulo}</a>
+        </h3>
+        
+        <p class="text-slate-600 text-sm mb-4 line-clamp-2 flex-1">{resumo}</p>
+        
+        <div class="flex items-center gap-2 mb-4 text-sm">
+            <div class="flex text-brand-500"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star-half"></i></div>
+            <span class="text-slate-500 font-medium">Nota: {nota}</span>
+        </div>
+
+        <div class="flex items-center gap-3 relative z-20 mt-auto">
+            <a href={linkReview} class="flex-1 py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold text-center rounded-xl transition-colors">
+                Ler Resenha
+            </a>
+            <a href={linkAfiliado} target="_blank" class="flex-1 py-2.5 px-4 bg-brand-500 hover:bg-brand-600 text-white text-sm font-bold text-center rounded-xl transition-all shadow-md shadow-brand-500/20 flex items-center justify-center gap-2">
+                <i class="ph-bold ph-shopping-cart text-lg"></i> Ver Preço
+            </a>
+        </div>
+    </div>
+    
+</article>
