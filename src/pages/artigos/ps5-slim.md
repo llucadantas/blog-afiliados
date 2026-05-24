@@ -2,13 +2,26 @@
 layout: ../../layouts/LayoutArtigo.astro
 titulo: "PlayStation 5 em 2026: Ainda Vale a Pena Comprar a Consola da Sony?"
 resumo: "Analisámos o desempenho, o catálogo de exclusivos, os tempos de carregamento do SSD e se o ecossistema da Sony ainda justifica o investimento este ano."
-categoria: "Consolas"
+categoria: "Games"
 data: "23 Mai 2026"
 imagem: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?q=80&w=1200&auto=format&fit=crop"
 link_afiliado: "https://meli.la/1pWgxcw"
 nota: "4.9"
 tipo: "Review"
 destaque: true
+
+precos_lojas:
+  - nome: "Mercado Livre"
+    preco: "R$ 4.230,57"
+    link: "https://meli.la/1pWgxcw"
+    badge: "Melhor Preço no Pix"
+  - nome: "Amazon"
+    preco: "R$ 4.399,00"
+    link: "https://meli.la/1pWgxcw"
+    badge: "Até 10x Sem Juros"
+  - nome: "Shopee"
+    preco: "R$ 4.290,00"
+    link: "https://meli.la/1pWgxcw"
 ---
 
 ## A Evolução da Nova Geração no teu Setup

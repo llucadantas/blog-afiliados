@@ -1,91 +1,232 @@
 ---
-import BaseLayout from './BaseLayout.astro';
-
-// O Astro injeta automaticamente os dados do cabeçalho do Markdown na variável frontmatter
+import BaseLayout from "./BaseLayout.astro";
+// Removemos a TabelaPrecos antiga e vamos criar o widget direto aqui para o layout de Produto Único
 const { frontmatter } = Astro.props;
+
+// Função auxiliar para os ícones e cores do mini-widget lateral
+const obterEstiloLoja = (nome: string) => {
+    const n = nome.toLowerCase();
+    if (n.includes("amazon"))
+        return { cor: "text-amber-500", icone: "ph-amazon-logo" };
+    if (n.includes("shopee"))
+        return { cor: "text-orange-600", icone: "ph-shopping-bag" };
+    if (n.includes("mercado livre") || n.includes("ml"))
+        return { cor: "text-yellow-500", icone: "ph-handshake" };
+    return { cor: "text-brand-500", icone: "ph-storefront" };
+};
 ---
 
 <BaseLayout titulo={`${frontmatter.titulo} | SetupIdeal`}>
-    
-    <div class="bg-dark-900 pt-32 pb-16 border-b border-dark-800">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+    <div
+        class="bg-slate-900 pt-36 pb-24 border-b border-slate-800 relative overflow-hidden"
+    >
+        <div
+            class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"
+        >
+        </div>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10 text-center">
             <div class="flex items-center justify-center gap-3 mb-6">
-                <span class="bg-brand-500/20 text-brand-400 border border-brand-500/30 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider">
+                <span
+                    class="bg-brand-500/10 text-brand-400 border border-brand-500/20 font-semibold px-4 py-1 rounded-full text-xs uppercase tracking-widest backdrop-blur-sm"
+                >
                     {frontmatter.categoria}
                 </span>
-                <span class="text-slate-400 text-sm font-medium">{frontmatter.data}</span>
+                <span class="text-slate-400 text-xs font-medium tracking-wide">
+                    <i class="ph ph-calendar-blank mr-1"></i>
+                    {frontmatter.data}
+                </span>
             </div>
-            
-            <h1 class="text-3xl sm:text-5xl font-display font-bold text-white leading-tight mb-6">
+
+            <h1
+                class="text-3xl sm:text-5xl font-display font-black text-white leading-tight mb-6 tracking-tight max-w-3xl mx-auto"
+            >
                 {frontmatter.titulo}
             </h1>
-            
-            <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-8 line-clamp-2">
+
+            <p
+                class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto mb-8 font-normal leading-relaxed"
+            >
                 {frontmatter.resumo}
             </p>
-            
-            <div class="flex items-center justify-center gap-3">
-                <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Felix&backgroundColor=f43f5e" class="w-10 h-10 rounded-full border-2 border-dark-700" alt="Autor">
+
+            <div
+                class="inline-flex items-center gap-3 bg-slate-800/40 border border-slate-700/50 px-4 py-2 rounded-2xl backdrop-blur-sm"
+            >
+                <img
+                    src="https://api.dicebear.com/7.x/notionists/svg?seed=Felix&backgroundColor=f43f5e"
+                    class="w-8 h-8 rounded-full border border-brand-500/30"
+                    alt="Autor"
+                />
                 <div class="text-left">
-                    <p class="text-white text-sm font-bold">Por Lucas</p>
-                    <p class="text-slate-500 text-xs">Especialista em Setup</p>
+                    <p class="text-slate-200 text-xs font-bold">
+                        Por Lucas Dantas
+                    </p>
+                    <p class="text-[10px] text-slate-500">
+                        Especialista em Hardware
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col lg:flex-row gap-12">
-        
-        <main class="lg:w-2/3">
-            <img src={frontmatter.imagem} alt={frontmatter.titulo} class="w-full h-auto md:h-[400px] object-cover rounded-3xl shadow-lg mb-10 -mt-24 relative z-10 border-4 border-white">
-            
-            <div class="bg-brand-50 border border-brand-100 rounded-2xl p-5 sm:p-8 mb-10 flex flex-col sm:flex-row items-center gap-6 shadow-sm">
-                <div class="flex-1 text-center sm:text-left">
-                    <h3 class="font-bold text-slate-900 text-lg mb-1">Decidido a comprar?</h3>
-                    <p class="text-slate-600 text-sm">Verifique o menor preço disponível hoje com nosso link seguro.</p>
+    <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col lg:flex-row gap-12 relative z-20"
+    >
+        <main class="lg:w-2/3 -mt-16 md:-mt-20 pb-20">
+            <div
+                class="relative rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white mb-10 bg-slate-100 aspect-video md:h-[420px] w-full"
+            >
+                <img
+                    src={frontmatter.imagem}
+                    alt={frontmatter.titulo}
+                    class="w-full h-full object-cover"
+                />
+                {
+                    frontmatter.nota && (
+                        <div class="absolute bottom-6 left-6 bg-slate-900/90 backdrop-blur-md text-white rounded-2xl p-3 flex items-center gap-3 shadow-xl border border-white/10">
+                            <div class="w-10 h-10 bg-brand-500 rounded-xl flex items-center justify-center text-white font-display font-black text-lg shadow-md shadow-brand-500/20">
+                                {frontmatter.nota}
+                            </div>
+                            <div>
+                                <div class="flex text-brand-400 text-xs">
+                                    <>
+                                        <i class="ph-fill ph-star" />
+                                        <i class="ph-fill ph-star" />
+                                        <i class="ph-fill ph-star" />
+                                        <i class="ph-fill ph-star" />
+                                        <i class="ph-fill ph-star" />
+                                    </>
+                                </div>
+                                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                                    Veredito SetupIdeal
+                                </p>
+                            </div>
+                        </div>
+                    )
+                }
+            </div>
+
+            <div
+                class="bg-gradient-to-r from-brand-50/60 to-rose-50/20 border border-brand-100 rounded-3xl p-6 sm:p-8 mb-10 flex flex-col sm:flex-row items-center gap-6 shadow-sm relative overflow-hidden"
+            >
+                <div
+                    class="absolute -right-8 -bottom-8 w-32 h-32 bg-brand-500/5 rounded-full blur-2xl"
+                >
                 </div>
-                <a href={frontmatter.link_afiliado} target="_blank" class="w-full sm:w-auto px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl shadow-lg shadow-brand-500/30 transition-all flex items-center justify-center gap-2 whitespace-nowrap">
-                    <i class="ph-bold ph-shopping-cart text-xl"></i> Conferir Preço
+                <div class="flex-1 text-center sm:text-left relative z-10">
+                    <span
+                        class="text-[10px] bg-brand-500 text-white font-bold px-2 py-0.5 rounded-md uppercase tracking-wider mb-2 inline-block"
+                        >Direto ao Ponto</span
+                    >
+                    <h3
+                        class="font-display font-bold text-slate-900 text-xl mb-1"
+                    >
+                        Decidido a comprar?
+                    </h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Garante o menor preço verificado de hoje através do
+                        nosso link afiliado seguro.
+                    </p>
+                </div>
+                <a
+                    href={frontmatter.link_afiliado}
+                    target="_blank"
+                    class="w-full sm:w-auto px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white font-bold text-sm rounded-2xl shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center gap-2 whitespace-nowrap group relative z-10"
+                >
+                    <i
+                        class="ph-bold ph-shopping-cart text-lg group-hover:scale-110 transition-transform"
+                    ></i> Conferir Preço Oficial
                 </a>
             </div>
 
-            <article class="prose prose-slate prose-lg max-w-none prose-headings:font-display prose-headings:font-bold prose-a:text-brand-500 hover:prose-a:text-brand-600 prose-img:rounded-2xl prose-strong:text-slate-900">
-                <slot /> 
+            <article
+                class="prose prose-slate sm:prose-lg max-w-none
+    prose-headings:font-display prose-headings:font-black prose-headings:tracking-tight prose-headings:text-slate-900
+    prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-2 prose-h2:border-b-2 prose-h2:border-slate-100
+    prose-h3:text-xl prose-h3:text-brand-600
+    prose-p:text-slate-700 prose-p:leading-loose prose-p:mb-6
+    prose-a:text-brand-500 prose-a:font-bold prose-a:decoration-brand-500/30 hover:prose-a:decoration-brand-500 transition-all
+    prose-strong:text-slate-900 prose-strong:font-extrabold prose-strong:bg-brand-50/50 prose-strong:px-1
+    prose-ul:space-y-3 prose-li:text-slate-700 prose-li:marker:text-brand-500
+    prose-blockquote:border-l-4 prose-blockquote:border-brand-500 prose-blockquote:bg-slate-50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-2xl prose-blockquote:font-medium prose-blockquote:text-slate-800 prose-blockquote:not-italic
+    prose-img:rounded-[2rem] prose-img:shadow-xl prose-img:border prose-img:border-slate-200/60 prose-img:my-10"
+            >
+                <slot />
             </article>
-
-            <div class="mt-12 p-8 bg-slate-900 rounded-3xl text-center shadow-xl border border-slate-800">
-                <h3 class="text-white font-display font-bold text-2xl mb-3">Gostou do {frontmatter.titulo}?</h3>
-                <p class="text-slate-400 mb-6 max-w-md mx-auto">Apoie o nosso trabalho comprando através do link abaixo. Você não paga nada a mais por isso!</p>
-                <a href={frontmatter.link_afiliado} target="_blank" class="inline-flex px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl shadow-lg shadow-brand-500/30 transition-all items-center gap-2">
-                    <i class="ph-bold ph-arrow-up-right text-xl"></i> Comprar Agora
-                </a>
-            </div>
         </main>
 
-        <aside class="lg:w-1/3 space-y-8">
-            <div class="bg-slate-50 rounded-3xl p-6 border border-slate-200">
-                <h3 class="font-display font-bold text-lg text-slate-900 mb-3 flex items-center gap-2">
-                    <i class="ph-fill ph-seal-check text-brand-500 text-xl"></i> Review Independente
-                </h3>
-                <p class="text-sm text-slate-600 leading-relaxed mb-4">
-                    Nenhuma marca patrocinou este artigo. As opiniões aqui refletem nossos próprios testes diários de uso.
-                </p>
-            </div>
+        <aside class="lg:w-1/3 lg:mt-6 pb-12">
+            <div class="sticky top-24 space-y-8">
+                {
+                    frontmatter.precos_lojas && (
+                        <div class="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/50 overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-4 border-b border-slate-200 flex items-center gap-2">
+                                <i class="ph-bold ph-tag text-brand-500 text-xl" />
+                                <h3 class="font-display font-bold text-slate-900 text-sm uppercase tracking-widest m-0!">
+                                    Onde Comprar Barato
+                                </h3>
+                            </div>
 
-            <div class="bg-dark-900 rounded-3xl p-6 shadow-xl relative overflow-hidden border border-dark-800">
-                <h3 class="font-display font-bold text-lg text-white flex items-center gap-2 mb-4">
-                    <i class="ph-fill ph-plus-circle text-brand-500"></i> Compre Junto
-                </h3>
-                <div class="bg-white/10 p-3 rounded-2xl flex gap-4 items-center mb-4">
-                    <img src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?q=80&w=150&auto=format&fit=crop" class="w-16 h-16 object-cover rounded-xl shadow-md" alt="Acessório">
-                    <div>
-                        <h4 class="text-white text-sm font-bold leading-tight">Apoio de Pulso Ergonômico</h4>
-                        <span class="text-brand-400 text-xs font-bold mt-1 block">Mais vendido</span>
+                            <div class="p-3 space-y-2">
+                                {frontmatter.precos_lojas.map((loja: any) => {
+                                    const estilos = obterEstiloLoja(loja.nome);
+                                    return (
+                                        <a
+                                            href={loja.link}
+                                            target="_blank"
+                                            class="flex flex-col p-4 rounded-2xl border border-slate-100 hover:border-brand-200 hover:bg-brand-50/30 transition-all group"
+                                        >
+                                            <div class="flex items-center justify-between mb-2">
+                                                <div class="flex items-center gap-2">
+                                                    <i
+                                                        class={`ph-fill ${estilos.icone} text-lg ${estilos.cor}`}
+                                                    />
+                                                    <span class="font-bold text-slate-700 text-sm">
+                                                        {loja.nome}
+                                                    </span>
+                                                </div>
+                                                {loja.badge && (
+                                                    <span class="text-[9px] bg-brand-100 text-brand-700 font-bold px-1.5 py-0.5 rounded uppercase tracking-wide">
+                                                        {loja.badge}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div class="flex items-end justify-between">
+                                                <span class="font-display font-black text-xl text-slate-900 group-hover:text-brand-600 transition-colors">
+                                                    {loja.preco}
+                                                </span>
+                                                <div class="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-brand-500 flex items-center justify-center transition-colors">
+                                                    <i class="ph-bold ph-arrow-up-right text-slate-400 group-hover:text-white text-sm" />
+                                                </div>
+                                            </div>
+                                        </a>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )
+                }
+
+                <div
+                    class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm relative overflow-hidden group hidden lg:block"
+                >
+                    <div
+                        class="absolute top-0 left-0 w-1.5 h-full bg-slate-300"
+                    >
                     </div>
+                    <h3
+                        class="font-display font-bold text-slate-900 mb-3 flex items-center gap-2"
+                    >
+                        <i class="ph-fill ph-info text-slate-400 text-xl"></i> Apoie
+                        o Site
+                    </h3>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        Ao comprar através dos links acima, nós podemos ganhar
+                        uma pequena comissão das lojas. Isso não altera o valor
+                        final do produto para você e ajuda a manter o nosso
+                        trabalho independente.
+                    </p>
                 </div>
-                <a href="#" class="w-full py-3 bg-white text-slate-900 hover:bg-slate-200 text-sm font-bold text-center rounded-xl transition-all shadow-md block">
-                    Ver Acessório
-                </a>
             </div>
         </aside>
     </div>
